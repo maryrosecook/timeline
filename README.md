@@ -28,7 +28,7 @@ Navigate to this project directory, run `npm install` to install dependencies (t
 
 ### The code
 
-* I'd find a way to amalgamate the mouse state tracking code (`MouseMonitor`) with the date drag control code (`ItemDurationDragControl`).  I couldn't figure out a nice way to get mouse clicks and moves without putting the mouse tracking code near the top level.  This reduced coherence (because those chunks of code are distant) and increased complexity (see that `ItemDurationDragControl.handleDrag` has to monitor incoming props rather that just respond to events).
+* I'd find a way to amalgamate the mouse state tracking code (`MouseMonitor`) with the date drag control code (`ItemDurationDragControl`).  I couldn't figure out a nice way to get mouse clicks and moves without putting the mouse tracking code near the top level.  This reduced coherence (because those chunks of code are distant from each other) and increased complexity (see that `ItemDurationDragControl.handleDrag` has to monitor incoming props rather that just respond to events).
 
 * I'd add PropTypes to make future refactors easier.
 
@@ -58,7 +58,7 @@ May                                June
 
 ## How I made design decisions
 
-* I designed the first version by sketching on paper.  (I spent quite a while trying to find a nice way to make the timeline vertical, rather than horizontal.  This felt like it would be a big win because scrolling through events would be so natural.  I could never find a design that a) had room for item names and b) tied an item's date span to its name.)
+* I designed the first version by sketching on paper.  (I spent a while trying to find a nice way to make the timeline vertical, rather than horizontal.  This felt like it would be a big win because scrolling through events would be so natural.  I could never find a design that a) had room for item names and b) tied an item's date span to its name.)
 
 * I designed the second version by cutting out strips of paper and laying them out on my desk.
 
