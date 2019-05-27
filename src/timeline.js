@@ -4,14 +4,12 @@ import moment from "moment";
 import Item from "./item";
 import DateAxis from "./dateAxis";
 import RENDER_SIZES from "./renderSizes";
+import MouseMonitor from "./mouseMonitor";
 import "./timeline.css";
 
 export default class Timeline extends Component {
   componentWillMount() {
-    this.setState({
-      items: parseDates(this.props.items),
-      mouse: { x: 0, isDown: false }
-    });
+    this.setState({ items: parseDates(this.props.items) });
   }
 
   start() {
@@ -96,6 +94,10 @@ export default class Timeline extends Component {
     return itemToGetRowForRow + 2;
   }
 
+  recordMouseState(mouse) {
+    this.setState({ mouse });
+  }
+
   updateItem(itemUpdate) {
     this.setState({
       items: this.state.items.map(item => {
@@ -108,32 +110,18 @@ export default class Timeline extends Component {
     });
   }
 
-  recordMouseX({ pageX }) {
-    this.setState({ mouse: { ...this.state.mouse, x: pageX } });
-  }
-
-  recordIsMouseDown(isDown) {
-    this.setState({ mouse: { ...this.state.mouse, isDown } });
-  }
-
   render() {
+    const items = this.state.items;
+
     return (
-      <div
-        className="screen"
-        onMouseMove={this.recordMouseX.bind(this)}
-        onMouseDown={() => this.recordIsMouseDown(true)}
-        onMouseUp={() => this.recordIsMouseDown(false)}
-      >
+      <MouseMonitor onMouseChange={this.recordMouseState.bind(this)}>
         <div
           className="timeline-grid"
           style={{ gridTemplateColumns: `repeat(${this.columnCount()}, 30px)` }}
         >
-          <DateAxis
-            items={this.state.items}
-            dateToColumn={this.dateToColumn.bind(this)}
-          />
+          <DateAxis items={items} dateToColumn={this.dateToColumn.bind(this)} />
 
-          {this.state.items.map(item => (
+          {items.map(item => (
             <Item
               key={item.id}
               item={item}
@@ -145,7 +133,7 @@ export default class Timeline extends Component {
             />
           ))}
         </div>
-      </div>
+      </MouseMonitor>
     );
   }
 }
