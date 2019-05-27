@@ -38,10 +38,6 @@ export default class Timeline extends Component {
     return this.earliestItem().start;
   }
 
-  end() {
-    return this.latestItem().end;
-  }
-
   earliestItem() {
     return this.state.items.reduce((earliest, item) =>
       earliest.start < item.start ? earliest : item
