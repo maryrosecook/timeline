@@ -23,7 +23,7 @@ export default class Item extends Component {
     return this.props.dateToColumn(this.item().end) + 1;
   }
 
-  dateControlMoved(whichDate, mouseX) {
+  updateDate(whichDate, mouseX) {
     this.setState({
       item: {
         ...this.state.item,
@@ -37,7 +37,7 @@ export default class Item extends Component {
     return this.state.editing ? this.state.item : this.props.item;
   }
 
-  dateControlDropped(whichDate) {
+  commitDate(whichDate) {
     this.setState({ editing: false });
 
     this.props.updateItem({
@@ -63,14 +63,14 @@ export default class Item extends Component {
           style={{ backgroundColor: this.getColor() }}
         >
           <ItemDurationDragControl
-            onDrag={mouseX => this.dateControlMoved("start", mouseX)}
-            onDrop={() => this.dateControlDropped("start")}
+            onDrag={mouseX => this.updateDate("start", mouseX)}
+            onDrop={() => this.commitDate("start")}
             mouse={this.props.mouse}
           />
 
           <ItemDurationDragControl
-            onDrag={mouseX => this.dateControlMoved("end", mouseX)}
-            onDrop={() => this.dateControlDropped("end")}
+            onDrag={mouseX => this.updateDate("end", mouseX)}
+            onDrop={() => this.commitDate("end")}
             mouse={this.props.mouse}
           />
         </div>
