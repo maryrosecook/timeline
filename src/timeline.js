@@ -91,6 +91,10 @@ export default class Timeline extends Component {
   }
 
   render() {
+    if (this.state.items.length === 0) {
+      return "Please pass in some timeline entries to display";
+    }
+
     const headerRowOffset = 2;
 
     return (
