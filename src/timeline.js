@@ -13,15 +13,23 @@ export default class Timeline extends Component {
   }
 
   start() {
-    return this.state.items.reduce((earliest, item) =>
-      earliest.start < item.start ? earliest : item
-    ).start;
+    return this.earliestItem().start;
   }
 
   end() {
+    return this.latestItem().end;
+  }
+
+  earliestItem() {
+    return this.state.items.reduce((earliest, item) =>
+      earliest.start < item.start ? earliest : item
+    );
+  }
+
+  latestItem() {
     return this.state.items.reduce((latest, item) =>
       latest.end > item.end ? latest : item
-    ).end;
+    );
   }
 
   xPositionToDate(xPosition) {
@@ -41,11 +49,7 @@ export default class Timeline extends Component {
   }
 
   endColumn() {
-    const latest = this.state.items.reduce((latest, item) =>
-      latest.end > item.end ? latest : item
-    );
-
-    return this.itemEndColumn(latest);
+    return this.itemEndColumn(this.latestItem());
   }
 
   columnCount() {
