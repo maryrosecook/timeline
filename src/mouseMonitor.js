@@ -1,17 +1,17 @@
 import React, { Component } from "react";
 
 export default class MouseMonitor extends Component {
-  state = { mouse: { x: 0, isDown: false } };
+  state = { x: 0, isDown: false };
 
   recordMouseX({ pageX }) {
-    this.setState({ mouse: { ...this.state.mouse, x: pageX } }, () =>
-      this.props.onMouseChange(this.state.mouse)
+    this.setState({ ...this.state, x: pageX }, () =>
+      this.props.onMouseChange(this.state)
     );
   }
 
   recordIsMouseDown(isDown) {
-    this.setState({ mouse: { ...this.state.mouse, isDown } }, () =>
-      this.props.onMouseChange(this.state.mouse)
+    this.setState({ ...this.state, isDown }, () =>
+      this.props.onMouseChange(this.state)
     );
   }
 
