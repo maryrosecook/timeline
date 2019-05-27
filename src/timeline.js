@@ -117,45 +117,35 @@ export default class Timeline extends Component {
     this.setState({ isMouseDown: isMouseDown });
   }
 
-  renderItems() {
-    return this.state.items.map(item => {
-      return (
-        <Item
-          key={item.id}
-          item={item}
-          row={this.itemRow(item)}
-          updateItem={this.updateItem.bind(this)}
-          isMouseDown={this.state.isMouseDown}
-          mouseX={this.state.mouseX}
-          dateToColumn={this.dateToColumn.bind(this)}
-          xPositionToDate={this.xPositionToDate.bind(this)}
-        />
-      );
-    });
-  }
-
   render() {
     return (
-      <div>
+      <div
+        className="screen"
+        onMouseMove={this.recordMouseX.bind(this)}
+        onMouseDown={() => this.recordIsMouseDown(true)}
+        onMouseUp={() => this.recordIsMouseDown(false)}
+      >
         <div
-          className="screen"
-          onMouseMove={this.recordMouseX.bind(this)}
-          onMouseDown={() => this.recordIsMouseDown(true)}
-          onMouseUp={() => this.recordIsMouseDown(false)}
+          className="timeline-grid"
+          style={{ gridTemplateColumns: `repeat(${this.columnCount()}, 30px)` }}
         >
-          <div
-            className="timeline-grid"
-            style={{
-              gridTemplateColumns: `repeat(${this.columnCount()}, 30px)`
-            }}
-          >
-            <DateAxis
-              items={this.state.items}
-              dateToColumn={this.dateToColumn.bind(this)}
-            />
+          <DateAxis
+            items={this.state.items}
+            dateToColumn={this.dateToColumn.bind(this)}
+          />
 
-            {this.renderItems()}
-          </div>
+          {this.state.items.map(item => (
+            <Item
+              key={item.id}
+              item={item}
+              row={this.itemRow(item)}
+              updateItem={this.updateItem.bind(this)}
+              isMouseDown={this.state.isMouseDown}
+              mouseX={this.state.mouseX}
+              dateToColumn={this.dateToColumn.bind(this)}
+              xPositionToDate={this.xPositionToDate.bind(this)}
+            />
+          ))}
         </div>
       </div>
     );
