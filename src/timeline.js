@@ -12,6 +12,28 @@ export default class Timeline extends Component {
     this.setState({ items: parseDates(this.props.items) });
   }
 
+  itemsWithRow() {
+    let _rows = [];
+
+    return this.state.items
+      .concat()
+      .sort((item1, item2) => item1.start - item2.start)
+      .map(item => {
+        let row = Array.from(_rows.keys()).find(
+          i => this.itemEndColumn(_rows[i]) < this.dateToColumn(item.start)
+        );
+
+        if (row === undefined) {
+          row = _rows.length;
+        }
+
+        item.row = row;
+        _rows[row] = item;
+
+        return item;
+      });
+  }
+
   start() {
     return this.earliestItem().start;
   }
@@ -52,48 +74,6 @@ export default class Timeline extends Component {
     return this.itemEndColumn(this.latestItem());
   }
 
-  itemRow(itemToGetRowFor) {
-    let itemToGetRowForRow;
-    let self = this;
-
-    function addItem(rows, item) {
-      let row = getFirstRowWithSpace(rows, item);
-
-      if (row === undefined) {
-        row = [];
-        row.index = rows.length;
-        rows.push(row);
-      }
-
-      row.push(item);
-
-      if (item === itemToGetRowFor) {
-        itemToGetRowForRow = row.index;
-      }
-
-      return rows;
-    }
-
-    function getFirstRowWithSpace(rows, item) {
-      return rows.find(row => {
-        if (row.length === 0) {
-          return true;
-        }
-
-        return (
-          self.itemEndColumn(row[row.length - 1]) <
-          self.dateToColumn(item.start)
-        );
-      });
-    }
-
-    this.state.items
-      .sort((item1, item2) => item1.start - item2.start)
-      .reduce(addItem, []);
-
-    return itemToGetRowForRow + 2;
-  }
-
   recordMouseState(mouse) {
     this.setState({ mouse });
   }
@@ -111,7 +91,7 @@ export default class Timeline extends Component {
   }
 
   render() {
-    const items = this.state.items;
+    const headerRowOffset = 2;
 
     return (
       <MouseMonitor onMouseChange={this.recordMouseState.bind(this)}>
@@ -119,13 +99,16 @@ export default class Timeline extends Component {
           className="timeline-grid"
           style={{ gridTemplateColumns: `repeat(${this.columnCount()}, 30px)` }}
         >
-          <DateAxis items={items} dateToColumn={this.dateToColumn.bind(this)} />
+          <DateAxis
+            items={this.state.items}
+            dateToColumn={this.dateToColumn.bind(this)}
+          />
 
-          {items.map(item => (
+          {this.itemsWithRow().map(item => (
             <Item
               key={item.id}
               item={item}
-              row={this.itemRow(item)}
+              row={item.row + headerRowOffset}
               updateItem={this.updateItem.bind(this)}
               mouse={this.state.mouse}
               dateToColumn={this.dateToColumn.bind(this)}
