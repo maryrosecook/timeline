@@ -48,12 +48,8 @@ export default class Timeline extends Component {
     return Math.max(textWidth, this.dateToColumn(item.end));
   }
 
-  endColumn() {
-    return this.itemEndColumn(this.latestItem());
-  }
-
   columnCount() {
-    return this.endColumn();
+    return this.itemEndColumn(this.latestItem());
   }
 
   itemRow(itemToGetRowFor) {
