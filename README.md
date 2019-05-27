@@ -34,6 +34,8 @@ Navigate to this project directory, run `npm install` to install dependencies (t
 
 * (My first implementation used some plain JS objects (`Timeline`, `Row`, `Item`) to calculate and update item positioning.  The idea was to keep that complexity in one place. But, React components are supposed to be for layout.  So the layout code ended up spread between the JS objects and the components.  Things became a lot simpler when I removed the objects.)
 
+* I'd consider using a min heap when laying out the timeline items in rows.  When finding a row in which to place an item, the current code iterates the rows and returns the first one that has space for the item.  Instead of this iteration, I could use a heap and pop off the first row that has space in `O(log(n))` time.  (It seems likely there are better performance improvements that making this change, so I'd check this was a performance bottleneck first.)
+
 ### The design
 
 * You can't set an item's start or end to a date outside the current date span of the timeline. To solve this, I'd make dragging a control to the edge of the timeline scroll the view.
