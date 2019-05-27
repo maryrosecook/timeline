@@ -10,8 +10,7 @@ export default class Timeline extends Component {
   componentWillMount() {
     this.setState({
       items: parseDates(this.props.items),
-      mouseX: 0,
-      isMouseDown: false
+      mouse: { x: 0, isDown: false }
     });
   }
 
@@ -109,12 +108,12 @@ export default class Timeline extends Component {
     });
   }
 
-  recordMouseX(event) {
-    this.setState({ mouseX: event.pageX });
+  recordMouseX({ pageX }) {
+    this.setState({ mouse: { ...this.state.mouse, x: pageX } });
   }
 
-  recordIsMouseDown(isMouseDown) {
-    this.setState({ isMouseDown: isMouseDown });
+  recordIsMouseDown(isDown) {
+    this.setState({ mouse: { ...this.state.mouse, isDown } });
   }
 
   render() {
@@ -140,8 +139,7 @@ export default class Timeline extends Component {
               item={item}
               row={this.itemRow(item)}
               updateItem={this.updateItem.bind(this)}
-              isMouseDown={this.state.isMouseDown}
-              mouseX={this.state.mouseX}
+              mouse={this.state.mouse}
               dateToColumn={this.dateToColumn.bind(this)}
               xPositionToDate={this.xPositionToDate.bind(this)}
             />

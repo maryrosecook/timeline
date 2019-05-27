@@ -65,15 +65,13 @@ export default class Item extends Component {
           <ItemDurationDragControl
             onDrag={mouseX => this.dateControlMoved("start", mouseX)}
             onDrop={() => this.dateControlDropped("start")}
-            mouseX={this.props.mouseX}
-            isMouseDown={this.props.isMouseDown}
+            mouse={this.props.mouse}
           />
 
           <ItemDurationDragControl
             onDrag={mouseX => this.dateControlMoved("end", mouseX)}
             onDrop={() => this.dateControlDropped("end")}
-            mouseX={this.props.mouseX}
-            isMouseDown={this.props.isMouseDown}
+            mouse={this.props.mouse}
           />
         </div>
 

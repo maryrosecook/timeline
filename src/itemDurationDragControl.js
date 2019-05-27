@@ -12,8 +12,8 @@ export default class ItemDurationDragControl extends Component {
       return;
     }
 
-    if (newProps.isMouseDown) {
-      this.props.onDrag(newProps.mouseX);
+    if (newProps.mouse.isDown) {
+      this.props.onDrag(newProps.mouse.x);
     } else {
       this.setState({ dragging: false });
       this.props.onDrop();
@@ -23,8 +23,8 @@ export default class ItemDurationDragControl extends Component {
   draggingAndMouseChanged(newProps) {
     return (
       this.state.dragging &&
-      (this.props.isMouseDown !== newProps.isMouseDown ||
-        this.props.mouseX !== newProps.mouseX)
+      (this.props.mouse.isDown !== newProps.mouse.isDown ||
+        this.props.mouse.x !== newProps.mouse.x)
     );
   }
 
