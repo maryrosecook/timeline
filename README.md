@@ -1,4 +1,4 @@
-# Airtable timeline web exercise v5
+# Timeline
 
 Mary Rose Cook / mary@maryrosecook.com
 
