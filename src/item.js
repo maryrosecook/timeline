@@ -19,7 +19,7 @@ export default class Item extends Component {
     return this.props.dateToColumn(this.item().start);
   }
 
-  durationEndColumn() {
+  barEndColumn() {
     return this.props.dateToColumn(this.item().end) + 1;
   }
 
@@ -49,12 +49,12 @@ export default class Item extends Component {
   render() {
     const row = this.props.row;
     const startColumn = this.startColumn();
-    const durationEndColumn = this.durationEndColumn();
+    const barEndColumn = this.barEndColumn();
 
     return (
       <div
         style={{
-          gridArea: `${row} / ${startColumn} / ${row} / ${durationEndColumn}`
+          gridArea: `${row} / ${startColumn} / ${row} / ${barEndColumn}`
         }}
         className="timeline-item"
       >
